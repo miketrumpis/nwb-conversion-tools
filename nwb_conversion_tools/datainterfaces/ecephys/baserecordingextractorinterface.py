@@ -25,6 +25,7 @@ class BaseRecordingExtractorInterface(BaseDataInterface, ABC):
     """Primary class for all RecordingExtractorInterfaces."""
 
     RX = None
+    subset_channels = None
 
     @classmethod
     def get_source_schema(cls):
@@ -34,8 +35,15 @@ class BaseRecordingExtractorInterface(BaseDataInterface, ABC):
     def __init__(self, **source_data):
         super().__init__(**source_data)
         self.recording_extractor = self.RX(**source_data)
-        self.subset_channels = None
-        self.source_data = source_data
+        channel_ids = self.recording_extractor.get_channel_ids()
+        if not all(channel_ids[i] <= channel_ids[i + 1] for i in range(len(channel_ids)-1)):
+            sorted_ids = sorted(channel_ids)
+            gains = self.recording_extractor.get_channel_gains(channel_ids=sorted_ids)
+            self.recording_extractor = se.SubRecordingExtractor(
+                parent_recording=self.recording_extractor,
+                channel_ids=sorted_ids
+            )
+            self.recording_extractor.set_channel_gains(gains=gains)  # SubRecording gains are not copied from parent
 
     def get_metadata_schema(self):
         """Compile metadata schema for the RecordingExtractor."""

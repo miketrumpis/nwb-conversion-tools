@@ -10,6 +10,7 @@ from nwb_conversion_tools import (
     IntanRecordingInterface,
     NeuralynxRecordingInterface,
     NeuroscopeRecordingInterface,
+    SpikeGadgetsRecordingInterface,
     SpikeGLXRecordingInterface,
 )
 
@@ -91,6 +92,20 @@ if HAVE_PARAMETERIZED and (HAVE_DATALAD and sys.platform == "linux" or RUN_LOCAL
                     ),
                 ),
                 (
+                    SpikeGadgetsRecordingInterface,
+                    "spikegadgets",
+                    dict(
+                        filename=str(data_path / "spikegadgets" / "20210225_em8_minirec2_ac.rec")
+                    )
+                ),
+                (
+                    SpikeGadgetsRecordingInterface,
+                    "spikegadgets",
+                    dict(
+                        filename=str(data_path / "spikegadgets" / "W122_06_09_2019_1_fromSD.rec")
+                    )
+                ),
+                (
                     SpikeGLXRecordingInterface,
                     "spikeglx/Noise4Sam_g0/Noise4Sam_g0_imec0",
                     dict(
@@ -102,7 +117,7 @@ if HAVE_PARAMETERIZED and (HAVE_DATALAD and sys.platform == "linux" or RUN_LOCAL
                             / "Noise4Sam_g0_t0.imec0.lf.bin"
                         )
                     ),
-                ),
+                )
             ]
         )
         def test_convert_recording_extractor_to_nwb(self, recording_interface, dataset_path, interface_kwargs):

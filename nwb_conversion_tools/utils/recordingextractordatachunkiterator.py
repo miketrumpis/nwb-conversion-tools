@@ -18,7 +18,7 @@ class RecordingExtractorDataChunkIterator(GenericDataChunkIterator):
         chunk_shape: tuple = None,
     ):
         self.recording = recording
-        self.channel_ids = recording.get_channel_ids()
+        self.channel_ids = sorted(recording.get_channel_ids())
         super().__init__(buffer_gb=buffer_gb, buffer_shape=buffer_shape, chunk_mb=chunk_mb, chunk_shape=chunk_shape)
 
     def _get_data(self, selection: Tuple[slice]) -> Iterable:

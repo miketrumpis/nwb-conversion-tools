@@ -13,7 +13,7 @@ class SpikeGadgetsRecordingInterface(BaseRecordingExtractorInterface):
     @classmethod
     def get_source_schema(cls):
         source_schema = get_schema_from_method_signature(cls.__init__)
-        source_schema["properties"]["filename"].update(format="file", description="Path to SpikeGadgets (.rec) file.")
+        source_schema["properties"]["filename"].update(description="Path to SpikeGadgets (.rec) file.")
         source_schema["properties"]["probe_file_path"].update(
             format="file", description="Optional path to a probe (.prb) file describing electrode features."
         )
